@@ -16,7 +16,7 @@ import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import React from "react";
 
 type Task = GetFieldsFromList<TasksQuery>
-type TaskStage = GetFieldsFromList<TaskStagesQuery> & {task: Task[]}
+type TaskStage = GetFieldsFromList<TaskStagesQuery> & {tasks: Task[]}
 
 const List = ({children}: React.PropsWithChildren) => {
     const {replace} = useNavigation()
@@ -150,17 +150,17 @@ const List = ({children}: React.PropsWithChildren) => {
             key={column.id}
             id={column.id}
             title={column.title}
-            count={column.task.length}
+            count={column.tasks.length}
             onAddClick={() => handleAddCard({stageId: column.id})}
             >
-                {!isLoading && column.task.map((task) => (
+                {!isLoading && column.tasks.map((task) => (
                     <KanbenItem key={task.id} id={task.id} data={task}>
                         <ProjectCardMemo
                            {...task}
                         dueDate={task.dueDate || undefined}                        />
                     </KanbenItem>
                 ))}
-                {!column.task.length && (
+                {!column.tasks.length && (
                     <KanbanAddCardButton
                     onClick={() => handleAddCard({stageId: column.id})}
                     />
